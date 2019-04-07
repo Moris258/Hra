@@ -10,7 +10,7 @@ namespace Hra
         public int atk;
         public string name;
 
-        public Enemy (int _hp, int _def, int _mdef, int _atk, string _name)
+        public Enemy(int _hp, int _def, int _mdef, int _atk, string _name)
         {
             hp = _hp;
             def = _def;
@@ -18,7 +18,7 @@ namespace Hra
             atk = _atk;
             name = _name;
         }
-               
+
     }
 
     class Player
@@ -28,84 +28,19 @@ namespace Hra
         public int atk;
         public int Int;
         public string name;
-        public int posx;
-        public int posy;
 
-        public Player(int hp, int def, int Int, int atk, string name, int posx, int posy)
+        public Player(int hp, int _def, int _Int, int _atk, string _name)
         {
             this.hp = hp;
-            this.def = def;
-            this.Int = Int;
-            this.atk = atk;
-            this.name = name;
-            this.posx = posx;
-            this.posy = posy;
+            def = _def;
+            Int = _Int;
+            atk = _atk;
+            name = _name;
 
-        }
-               
-    }
-
-    class Grid
-    {
-        Random random = new Random();
-
-        public int width;
-        public int height;
-        public string[,] grid;
-
-        public Grid()
-        {
-            width = random.Next(35,62);
-            height = width;
-            grid = new string[width,height];
-            
-            
-        }
-
-    }
-    class Room
-    {
-        Random random = new Random();
-
-        public int roomheight;
-        public int roomwidth;
-        public int placex;
-        public int placey;
-        
-        public Room(string[,] grid, int height, int width)
-        {
-            
-            roomwidth = random.Next(7, 17);
-            roomheight = random.Next(7, 17);
-            placey = random.Next(0, height - roomheight);
-            placex = random.Next(0, width - roomwidth);
-
-            for (int x = placex; x < placex + roomwidth; x++)
-            {
-                for (int y = placey; y < placey + roomheight; y++)
-                {
-                    if (y == placey || y == placey + roomheight - 1)
-                    {
-                        grid[x, y] = "_";
-                    }
-                    else if (x == placex || x == placex + roomwidth - 1)
-                    {
-                        grid[x, y] = "|";
-                    }
-                    else
-                    {
-                        grid[x, y] = ".";
-                    }
-                    
-
-                }
-                
-            }
         }
 
     }
 
-    
 
     class Ability
     {
@@ -118,7 +53,7 @@ namespace Hra
             name = _name;
 
         }
-        
+
     }
 
 
@@ -128,15 +63,15 @@ namespace Hra
         static void Main(string[] args)
         {
             Random halp = new Random();
-            Grid grid = new Grid();
-            Room pls = new Room(grid.grid, grid.height, grid.width);
-            
-            
+
+            string[,] plos = new string[5, 5];
+            Console.WriteLine(plos.GetLength(0));
 
 
 
 
-            
+
+
             Console.Write("Enter your name: ");
             string name = Convert.ToString(Console.ReadLine());
             /*
@@ -165,11 +100,11 @@ namespace Hra
                 int stat = Convert.ToInt32(Console.ReadLine());
                 Console.WriteLine("Choose to increase or decrease the stat with + or -");
 
-                
+
                 switch (stat)
                 {
                     case 1:
-                        hp = Stat(hp,points);
+                        hp = Stat(hp, points);
                         break;
                     case 2:
                         atk = Stat(atk, points);
@@ -188,82 +123,90 @@ namespace Hra
             }
 
 
-            Player player1 = new Player(hp, def, Int, atk, name, pls.placex + 1, pls.placey + 1);
+            Player player1 = new Player(hp, def, Int, atk, name);
 
             Ability slash = new Ability(0, "Slash");
             Ability fireball = new Ability(1, "Fireball");
-                                   
-            
-            while (grid.grid [player1.posx, player1.posy] != ".")
+
+            string[,] grid = Grid();
+            int x = 1;
+            int y = 1;
+            while (grid[x, y] != ".")
             {
-                player1.posx = halp.Next(1, grid.grid.GetLength(0) - 1);
-                player1.posy = halp.Next(1, grid.grid.GetLength(0) - 1);
+                x = halp.Next(1, grid.GetLength(0) - 1);
+                y = halp.Next(1, grid.GetLength(0) - 1);
             }
-                
-            grid.grid[player1.posx, player1.posy] = "P";
-            Console.Clear();
-            
 
+            grid[x, y] = "P";
 
-            int enemies = 0;    
+            int enemies = 0;
             while (player1.hp > 0)
             {
                 Enemy cat = new Enemy(halp.Next(90, 110), halp.Next(15, 25), halp.Next(15, 25), halp.Next(35, 55), "Cat");
                 int c = halp.Next(1, 11);
                 int d = halp.Next(1, 11);
-                while (grid.grid[c, d] != ".")
+                while (grid[c, d] != ".")
                 {
-                    c = halp.Next(1, grid.grid.GetLength(0) - 1);
-                    d = halp.Next(1, grid.grid.GetLength(0) - 1);
+                    c = halp.Next(1, grid.GetLength(0) - 1);
+                    d = halp.Next(1, grid.GetLength(0) - 1);
                 }
-                while ((c == player1.posx) & (d == player1.posy))
+                while ((c == x) & (d == y))
                 {
-                    c = halp.Next(1, grid.grid.GetLength(0) - 1);
+                    c = halp.Next(1, grid.GetLength(0) - 1);
                 }
-                grid.grid[c, d] = "C";
-                Grid(grid.grid);
+                grid[c, d] = "C";
+                Grid(grid);
 
-                while (player1.posx != c || player1.posy != d)
+                while (x != c || y != d)
                 {
                     ConsoleKeyInfo move = Console.ReadKey();
                     if (move.KeyChar == 'w')
                     {
-                        if (grid.grid[player1.posx, player1.posy - 1] != "_")
+                        if (grid[x, y - 1] == "_")
                         {
-                            Console.SetCursorPosition(player1.posx, player1.posy);
-                            Console.Write(" . ");
-                            player1.posy--;
-                            Console.SetCursorPosition(player1.posx, player1.posy);
-                            Console.Write(" P ");
-                            
+
+                        }
+                        else
+                        {
+                            y--;
+                            grid[x, y] = "P";
+                            grid[x, y + 1] = ".";
+                            Console.WriteLine();
+                            Grid(grid);
                             Console.Beep();
                         }
-                    
+
 
                     }
                     else if (move.KeyChar == 'a')
                     {
-                        if (grid.grid[player1.posx - 2, player1.posy] != "|")
+                        if (grid[x - 1, y] == "|")
                         {
-                            Console.SetCursorPosition(player1.posx, player1.posy);
-                            Console.Write(" . ");
-                            player1.posx -= 2;
-                            Console.SetCursorPosition(player1.posx, player1.posy);
-                            Console.Write(" P ");
-                            
+
+                        }
+                        else
+                        {
+                            x--;
+                            grid[x, y] = "P";
+                            grid[x + 1, y] = ".";
+                            Console.WriteLine();
+                            Grid(grid);
                             Console.Beep();
                         }
                     }
                     else if (move.KeyChar == 's')
                     {
-                        if (grid.grid[player1.posx, player1.posy + 1] != "_")
+                        if (grid[x, y + 1] == "_")
                         {
-                            Console.SetCursorPosition(player1.posx, player1.posy);
-                            Console.Write(" . ");
-                            player1.posy++;
-                            Console.SetCursorPosition(player1.posx, player1.posy);
-                            Console.Write(" P ");
-                            
+
+                        }
+                        else
+                        {
+                            y++;
+                            grid[x, y] = "P";
+                            grid[x, y - 1] = ".";
+                            Console.WriteLine();
+                            Grid(grid);
                             Console.Beep();
                         }
 
@@ -271,14 +214,28 @@ namespace Hra
                     }
                     else if (move.KeyChar == 'd')
                     {
-                        if (grid.grid[player1.posx + 2, player1.posy] != "|")
+                        if (grid[x + 1, y] == "|")
                         {
-                            Console.SetCursorPosition(player1.posx, player1.posy);
-                            Console.Write(" . ");
-                            player1.posx += 2;
-                            Console.SetCursorPosition(player1.posx, player1.posy);
-                            Console.Write(" P ");
-                            
+
+                        }
+                        else if (grid[x + 1, y] == "&")
+                        {
+                            x++;
+                            grid[x, y] = "P";
+                            grid[x - 1, y] = ".";
+                            grid = Grid2(grid, x, y);
+                            Console.WriteLine();
+                            Grid(grid);
+                            Console.Beep();
+                        }
+                        else
+                        {
+                            x++;
+                            grid[x, y] = "P";
+                            grid[x - 1, y] = ".";
+
+                            Console.WriteLine();
+                            Grid(grid);
                             Console.Beep();
                         }
                     }
@@ -286,12 +243,9 @@ namespace Hra
                     {
 
                     }
-                    Console.SetCursorPosition(0, grid.height + 1);
-
-
 
                 }
-                Console.Beep(3000,300); Console.Beep(1000,100); Console.Beep(2250,300); Console.Beep(750,100); Console.Beep(1500,300); Console.Beep(500,100); Console.Beep(750,300); Console.Beep(3000,300);
+                Console.Beep(3000, 300); Console.Beep(1000, 100); Console.Beep(2250, 300); Console.Beep(750, 100); Console.Beep(1500, 300); Console.Beep(500, 100); Console.Beep(750, 300); Console.Beep(3000, 300);
                 System.Threading.Thread.Sleep(1000);
                 while (cat.hp > 0 && player1.hp > 0)
                 {
@@ -302,7 +256,7 @@ namespace Hra
                     Console.WriteLine(player1.name + " hp: " + player1.hp);
                     System.Threading.Thread.Sleep(500);
                     Console.WriteLine("Abilities:\nQ:" + slash.name + "   ;   E:" + fireball.name);
-                    failsave:
+                failsave:
 
                     ConsoleKeyInfo spell = Console.ReadKey();
                     if (spell.KeyChar == 'q')
@@ -338,7 +292,7 @@ namespace Hra
                     Console.Beep();
                     turn++;
                     System.Threading.Thread.Sleep(1000);
-                    
+
 
 
                 }
@@ -348,7 +302,7 @@ namespace Hra
                     enemies++;
                     Console.WriteLine("Press any key to continue.");
                     Console.WriteLine();
-                    Console.Beep(1000,200); Console.Beep(2000,200); Console.Beep(3000,200);
+                    Console.Beep(1000, 200); Console.Beep(2000, 200); Console.Beep(3000, 200);
                     Console.ReadKey();
                     Console.WriteLine();
                 }
@@ -356,26 +310,24 @@ namespace Hra
                 {
                     Console.WriteLine("GAME OVER. You were defeated by the cat. RIP.");
                     Console.WriteLine("Press any key to continue.");
-                    Console.Beep(3000,200); Console.Beep(2000,200); Console.Beep(1000,200); Console.Beep(500,200);
+                    Console.Beep(3000, 200); Console.Beep(2000, 200); Console.Beep(1000, 200); Console.Beep(500, 200);
                     Console.ReadKey();
                 }
 
             }
             Console.WriteLine("\nYou managed to defeat " + enemies + " enemies. The world thanks you for your endeavor.");
-            
+
             Console.ReadKey();
 
-            
-                                 
+
+
         }
 
         /*public static string[,] Grid()
         {
             int width = 12;
             int height = 12;
-
             string[,] grid = new string[width, height];
-
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
@@ -392,34 +344,29 @@ namespace Hra
                     {
                         grid[x, y] = ".";
                     }
-
                     
                     Console.Write(grid[x,y] + " ");
-
                 }
                 Console.WriteLine();
             }
-
             return grid;
-
-
         }*/
 
         public static string[,] Grid()
         {
             Random random = new Random();
-            
-            int width = random.Next(35,62);
+
+            int width = random.Next(35, 62);
             int height = width;
-            string[,] grid = new string[width,height];
+            string[,] grid = new string[width, height];
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    grid[x, y] = " ";                  
+                    grid[x, y] = " ";
 
                 }
-                
+
             }
             int roomwidth = random.Next(7, 17);
             int roomheight = random.Next(7, 17);
@@ -469,7 +416,6 @@ namespace Hra
                         goto Start;
                         
                     }
-
                 }
                 
             }
@@ -489,10 +435,7 @@ namespace Hra
                     {
                         grid[x, y] = ".";
                     }
-
-
                     Console.Write(grid[x, y] + " ");
-
                 }
                 Console.WriteLine();
             }
@@ -513,7 +456,7 @@ namespace Hra
             int roomheight = random.Next(7, 8);
             int placey = p;
             int placex = o;
-            
+
             /*for (int x = placex; x < placex + roomwidth; x++)
             {
                 for (int y = placey; y < placey + roomheight; y++)
@@ -521,11 +464,8 @@ namespace Hra
                     if (grid[x, y] != null)
                     {
                         goto Start;
-
                     }
-
                 }
-
             }*/
             for (int x = placex; x < placex + roomwidth; x++)
             {
@@ -552,13 +492,13 @@ namespace Hra
             }
 
             return grid;
-        }                      
+        }
 
         public static void Grid(string[,] coor)
         {
             int width = coor.GetLength(0);
             int height = coor.GetLength(1);
-            
+
 
             for (int y = 0; y < width; y++)
             {
@@ -569,7 +509,7 @@ namespace Hra
                 }
                 Console.WriteLine();
             }
-            
+
 
 
         }
@@ -613,12 +553,7 @@ namespace Hra
             return att;
 
         }
-        public static void Render(int posx, int posy)
-        {
-            Console.SetCursorPosition(posx, posy);
-                       
 
-        }
 
     }
 }
