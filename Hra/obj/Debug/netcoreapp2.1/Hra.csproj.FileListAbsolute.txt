@@ -1,0 +1,11 @@
+D:\CSharp\Věci\Hra\Hra\Hra\bin\Debug\netcoreapp2.1\Hra.deps.json
+D:\CSharp\Věci\Hra\Hra\Hra\bin\Debug\netcoreapp2.1\Hra.runtimeconfig.json
+D:\CSharp\Věci\Hra\Hra\Hra\bin\Debug\netcoreapp2.1\Hra.runtimeconfig.dev.json
+D:\CSharp\Věci\Hra\Hra\Hra\bin\Debug\netcoreapp2.1\Hra.dll
+D:\CSharp\Věci\Hra\Hra\Hra\bin\Debug\netcoreapp2.1\Hra.pdb
+D:\CSharp\Věci\Hra\Hra\Hra\obj\Debug\netcoreapp2.1\Hra.csprojAssemblyReference.cache
+D:\CSharp\Věci\Hra\Hra\Hra\obj\Debug\netcoreapp2.1\Hra.csproj.CoreCompileInputs.cache
+D:\CSharp\Věci\Hra\Hra\Hra\obj\Debug\netcoreapp2.1\Hra.AssemblyInfoInputs.cache
+D:\CSharp\Věci\Hra\Hra\Hra\obj\Debug\netcoreapp2.1\Hra.AssemblyInfo.cs
+D:\CSharp\Věci\Hra\Hra\Hra\obj\Debug\netcoreapp2.1\Hra.dll
+D:\CSharp\Věci\Hra\Hra\Hra\obj\Debug\netcoreapp2.1\Hra.pdb
